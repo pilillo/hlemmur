@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  bootstrap:
+    image: alpine/curl:latest
+    volumes:
+      - ./download-map.sh:/download-map.sh
+      - osrm-data:/data
+    environment:
+      #MAP_URL: https://download.geofabrik.de/europe/iceland-latest.osm.pbf
+      MAP_URL: http://download.geofabrik.de/europe/germany/berlin-latest.osm.pbf
+    entrypoint: /download-map.sh
+  osrm-preprocess:
+    depends_on:
+      - bootstrap
+    image: osrm/osrm-backend:latest
+    volumes:
+      - ./start-osrm.sh:/start-osrm.sh
+      - osrm-data:/data
+    command: /start-osrm.sh extract
+  osrm-run:
+    depends_on:
+      - bootstrap
+      - osrm-preprocess
+    image: osrm/osrm-backend:latest
+    ports:
+      - 5005:5000
+    volumes:
+      - ./start-osrm.sh:/start-osrm.sh
+      - osrm-data:/data
+    command: /start-osrm.sh run
+
+volumes:
+  osrm-data:

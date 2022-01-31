@@ -1,7 +1,27 @@
 # Hlemmur 🚌
 Road network analysis use cases with Leaflet, Leaflet-react, Leaflet control geocoder, OSRM/Valhalla.
 
-## Development
+## Running OSRM using docker
+Preprocessing steps:
+```
+curl -o osm-data/map.osm.pbf https://download.geofabrik.de/europe/iceland-latest.osm.pbf
+docker run -t -v "$PWD/osm-data:/data" osrm/osrm-backend osrm-extract -p /opt/car.lua /data/map.osm.pbf
+docker run -t -v "${PWD}/osm-data:/data" osrm/osrm-backend osrm-partition /data/map.osrm
+docker run -t -v "${PWD}/osm-data:/data" osrm/osrm-backend osrm-customize /data/map.osrm
+```
+
+Server running:
+```
+docker run -t -i -p 5005:5000 -v "${PWD}/osm-data:/data" osrm/osrm-backend osrm-routed --algorithm mld /data/map.osrm
+```
+
+or directly using docker compose:
+```
+docker-compose -f docker-compose-runner.yaml build
+docker-compose -f docker-compose-runner.yaml up
+```
+
+## UI Development
 
 In the project directory, you can run:
 

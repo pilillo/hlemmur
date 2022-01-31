@@ -5,7 +5,7 @@ import RoutingMachine from './RoutingMachine';
 
 function Map(){
 
-    const [position, setPosition] = useState([51.51, -0.12])
+    const [position, setPosition] = useState([64.142285, -21.913329])
 
     return (
         <div id="map" >

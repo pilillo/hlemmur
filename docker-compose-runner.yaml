@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  osrm:
+    image: osrm/osrm-backend:latest
+    ports:
+      - 5005:5000
+    volumes:
+      - ./osm-data:/data
+    command: "osrm-routed --max-matching-size 1000 --max-table-size 1000 --max-viaroute-size 1000 --algorithm mld /data/map.osrm"
+  ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8089:80
+    environment:
+      - NGINX_PORT=80
+      - OSRM_URL="http://osrm:5005/"    
+    depends_on:
+      - osrm

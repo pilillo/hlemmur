@@ -42,6 +42,8 @@ const RoutingMachine = createControlComponent(function(props) {
     const geocoder = L.Control.Geocoder.nominatim();
     
     const instance = L.Routing.control({
+        serviceUrl: 'http://localhost:5005/route/v1',
+
         // https://www.liedman.net/leaflet-routing-machine/tutorials/alternative-routers/
         //router: L.routing.valhalla("http://localhost:8002/route"),
         waypoints: [
