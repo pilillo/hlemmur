@@ -5,5 +5,5 @@
 !docker-compose-builder.yml
 !docker-compose-runner.yaml
 !start-osrm.sh
-|img
+!img
 !img/*
