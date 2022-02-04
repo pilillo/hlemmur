@@ -4,6 +4,6 @@
 !Dockerfile
 !docker-compose-builder.yml
 !docker-compose-runner.yaml
-!download-map.sh
 !start-osrm.sh
-
+|img
+!img/*
