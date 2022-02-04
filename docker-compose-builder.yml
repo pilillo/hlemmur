@@ -3,12 +3,11 @@ services:
   bootstrap:
     image: alpine/curl:latest
     volumes:
-      - ./download-map.sh:/download-map.sh
+      - ./start-osrm.sh:/start-osrm.sh
       - osrm-data:/data
     environment:
-      #MAP_URL: https://download.geofabrik.de/europe/iceland-latest.osm.pbf
-      MAP_URL: http://download.geofabrik.de/europe/germany/berlin-latest.osm.pbf
-    entrypoint: /download-map.sh
+      MAP_URL: https://download.geofabrik.de/europe/iceland-latest.osm.pbf
+    entrypoint: /start-osrm.sh download
   osrm-preprocess:
     depends_on:
       - bootstrap
@@ -17,7 +16,7 @@ services:
       - ./start-osrm.sh:/start-osrm.sh
       - osrm-data:/data
     command: /start-osrm.sh extract
-  osrm-run:
+  osrm:
     depends_on:
       - bootstrap
       - osrm-preprocess
@@ -28,6 +27,17 @@ services:
       - ./start-osrm.sh:/start-osrm.sh
       - osrm-data:/data
     command: /start-osrm.sh run
+  ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8089:80
+    environment:
+      - NGINX_PORT=80
+      - OSRM_URL="http://osrm:5005/"    
+    depends_on:
+      - osrm
 
 volumes:
   osrm-data:
