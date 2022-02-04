@@ -23,6 +23,13 @@ docker-compose -f docker-compose-runner.yaml build
 docker-compose -f docker-compose-runner.yaml up
 ```
 
+Mind that the docker compose builder runs all those steps (download map, extract, serve) as a sequence of containers.
+
+```
+docker-compose -f docker-compose-builder.yml build
+docker-compose -f docker-compose-builder.yml up
+```
+
 ## UI Development
 
 In the project directory, you can run:
