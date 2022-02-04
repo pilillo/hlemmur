@@ -1,6 +1,8 @@
 # Hlemmur 🚌
 Road network analysis use cases with Leaflet, Leaflet-react, Leaflet control geocoder, OSRM/Valhalla.
 
+![](img/iceland_example.png)
+
 ## Running OSRM using docker
 Preprocessing steps:
 ```
